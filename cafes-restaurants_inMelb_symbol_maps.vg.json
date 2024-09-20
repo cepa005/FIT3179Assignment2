@@ -1,3 +1,57 @@
 {
-    
+    "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+    "width": 800,
+    "height": 450,
+    "title": "Restaurants, bistros and cafes around Melbourne",
+    "projection": {
+        "type": "mercator",
+        "center": [144.9631, -37.8136],
+        "scale": 250000
+    },
+    "layer": [
+        {
+            "data": {
+                "url": "https://raw.githubusercontent.com/cepa005/FIT3179HW-W9/refs/heads/main/vic_localities.json",
+                "format": {"type": "topojson", "feature": "vic_localities"}
+            },
+            "mark": {"type": "geoshape", "fill": "lightgray", "stroke": "white"}
+        },
+        {
+            "data": {
+                "url": "https://raw.githubusercontent.com/cepa005/FIT3179HW-W9/refs/heads/main/data/cafes-and-restaurants-with-seating-capacity.csv",
+                "format": {"type": "csv"}
+            },
+            "transform": [
+                {
+                    "aggregate": [
+                        {"op": "count", "field": "trading_name", "as":"restaurant_count"}
+                    ],
+                    "groupby": ["clue_small_area", "latitude", "longitude"]
+                }
+            ],
+            "mark": {"type": "circle", "tooltip": {"content": "data"}},
+            "encoding": {
+                "longitude": {"field": "longitude", "type": "quantitative"},
+                "latitude": {"field": "latitude", "type": "quantitative"},
+                "size":{
+                    "field":"restaurant_count",
+                    "type": "quantitative",
+                    "title": "Number of Restaurants",
+                    "scale": {"range": [10, 300]}
+                },
+                "color": {
+                    "field":"clue_small_area",
+                    "type": "nominal",
+                    "title": "Area",
+                    "scale": {
+                        "scheme":"category10"
+                    }
+                },
+                "tooltip": [
+                    {"field": "clue_small_area", "type": "nominal", "title": "Area"},
+                    {"field": "restaurant_count", "type": "quantitative", "title": "Number of Restaurants"}
+                ]
+            }
+        }
+    ]
 }

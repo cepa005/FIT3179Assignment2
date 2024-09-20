@@ -12,7 +12,10 @@
         <div id="vic_localities"></div>
 
         <script type="text/javascript">
-            
+            var spec2 = "js/cafes-restaurants_inMelb_symbol_maps.vg.json";
+            vegaEmbed('#cafes-restaurants_inMelb', spec2).then(function(result) {
+                var view = result.view;
+            }).catch(console.error);
         </script>
     </body>
 </html>
