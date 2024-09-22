@@ -29,6 +29,7 @@
                     "groupby": ["clue_small_area", "latitude", "longitude"]
                 }
             ],
+            
             "mark": {"type": "circle", "tooltip": {"content": "data"}},
             "encoding": {
                 "longitude": {"field": "longitude", "type": "quantitative"},
