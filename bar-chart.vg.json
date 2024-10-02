@@ -15,10 +15,15 @@
                 "Carlton",
                 "Docklands",
                 "East Melbourne",
-                "Melbourne (CBD)",
-                "North Melbourne",
-                "South Yarra",
                 "Kensington",
+                "Melbourne (CBD)",
+                "Melbourne (Remainder)",
+                "North Melbourne",
+                "Parkville",
+                "Port Melbourne",
+                "South Yarra",
+                "Southbank",
+                "West Melbourne (Industrial)",
                 "West Melbourne (Residential)"
             ],
             "labels": [
@@ -26,10 +31,15 @@
                 "Carlton",
                 "Docklands",
                 "East Melbourne",
-                "Melbourne (CBD)",
-                "North Melbourne",
-                "South Yarra",
                 "Kensington",
+                "Melbourne (CBD)",
+                "Melbourne (Remainder)",
+                "North Melbourne",
+                "Parkville",
+                "Port Melbourne",
+                "South Yarra",
+                "Southbank",
+                "West Melbourne (Industrial)",
                 "West Melbourne (Residential)"
             ],
             "name": "Select Area: "
@@ -39,8 +49,10 @@
         {"filter": "datum.clue_small_area != ''"},
         {"aggregate": [{"op": "count", "as": "restaurant_count"}], "groupby": ["clue_small_area"]}
     ],
-    "mark": "bar",
-    "encoding": {
+    "layer": [
+    {
+        "mark": "bar",
+        "encoding": {
         "x": {
             "field": "clue_small_area",
             "type": "nominal",
@@ -68,6 +80,34 @@
         "tooltip": [
             {"field": "clue_small_area", "type": "nominal", "title": "Areas in Melbourne"},
             {"field": "restaurant_count", "type": "quantitative", "title": "Number of Restaurants"}
-        ]
+            ]
+        }
+    },
+    {
+        "mark": {
+            "type": "text",
+            "align": "center",
+            "baseline": "bottom",
+            "dx": -5,
+            "fontSize": 12,
+            "fontStyle": "bold"
+        },
+        "encoding": {
+            "x": {
+                "field": "clue_small_area",
+                "type": "nominal"
+            },
+            "y": {
+                "field": "restaurant_count",
+                "type": "quantitative"
+            },
+            "text": {
+                "field": "restaurant_count",
+                "text": "quantitative"
+            },
+            "color": {"value": "black"}
+        }
     }
+    ]
+    
 }
