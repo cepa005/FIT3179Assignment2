@@ -4,16 +4,21 @@
         <script src="https://cdn.jsdelivr.net/npm/vega@5.20.2"></script>
         <script src="https://cdn.jsdelivr.net/npm/vega-lite@5.1.0"></script>
         <script src="https://cdn.jsdelivr.net/npm/vega-embed@6.17.0"></script>
+        <link rel="stylesheet" href="https://unpkg.com/purecss@2.0.3/build/pure-min.css"
+        integrity="sha384-cg6SkqEOCV1NbJoCu11+bm0NvBRc8IYLRGXkmNrqUBfTjmMYwNKPWBTIKyw9mHNJ" crossorigin="anonymous">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
 
         <link rel="stylesheet" type="text/css" href="css/styles.css" media="all">
     </head>
 
     <body>
         <div id="cafes-restaurants_inMelb"></div>
-
+        <div id="bar-chart"></div>
         <script type="text/javascript">
             var spec2 = "cafes-restaurants_inMelb_symbol_maps.vg.json";
             vegaEmbed('#cafes-restaurants_inMelb', spec2).then(function(result) {}).catch(console.error);
+            var spec3 = "bar-chart.vg.json";
+            vegaEmbed('#bar-chart', spec3).then(function(result) {}).catch(console.error);
         </script>
     </body>
 </html>

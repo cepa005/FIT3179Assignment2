@@ -1,0 +1,73 @@
+{
+    "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+    "width": 600,
+    "height": 400,
+    "title": "Number of Restaurants in Melbourne by Areas",
+    "data": {
+        "url": "https://raw.githubusercontent.com/cepa005/FIT3179HW-W9/refs/heads/main/data/cafes-and-restaurants-with-seating-capacity.csv"
+    },
+    "params": [{
+        "name": "Area_selection",
+        "bind": {
+            "input": "select",
+            "options": [
+                null,
+                "Carlton",
+                "Docklands",
+                "East Melbourne",
+                "Melbourne (CBD)",
+                "North Melbourne",
+                "South Yarra",
+                "Kensington",
+                "West Melbourne (Residential)"
+            ],
+            "labels": [
+                "Show All",
+                "Carlton",
+                "Docklands",
+                "East Melbourne",
+                "Melbourne (CBD)",
+                "North Melbourne",
+                "South Yarra",
+                "Kensington",
+                "West Melbourne (Residential)"
+            ],
+            "name": "Select Area: "
+        }
+    }],
+    "transform": [
+        {"filter": "datum.clue_small_area != ''"},
+        {"aggregate": [{"op": "count", "as": "restaurant_count"}], "groupby": ["clue_small_area"]}
+    ],
+    "mark": "bar",
+    "encoding": {
+        "x": {
+            "field": "clue_small_area",
+            "type": "nominal",
+            "axis": {"labelAngle": -45},
+            "title": "Areas in Melbourne"
+        },
+        "y": {
+            "field": "restaurant_count",
+            "type": "quantitative",
+            "title": "Number of Restaurants"
+        },
+        "color": {
+            "field": "clue_small_area",
+            "type": "nominal",
+            "legend": {"title": "Areas"},
+            "title": "Area Color"
+        },
+        "opacity": {
+            "condition": {
+                "test": "datum.clue_small_area == Area_selection || Area_selection == null",
+                "value": 1
+            },
+            "value": 0.2
+        },
+        "tooltip": [
+            {"field": "clue_small_area", "type": "nominal", "title": "Areas in Melbourne"},
+            {"field": "restaurant_count", "type": "quantitative", "title": "Number of Restaurants"}
+        ]
+    }
+}
