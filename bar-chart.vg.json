@@ -2,84 +2,70 @@
     "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
     "width": 600,
     "height": 400,
-    "title": "Number of Restaurants in Melbourne by Areas",
+    "title": "Number of Restaurants by Industry type in Melbourne ",
     "data": {
         "url": "https://raw.githubusercontent.com/cepa005/FIT3179HW-W9/refs/heads/main/data/cafes-and-restaurants-with-seating-capacity.csv"
     },
     "params": [{
-        "name": "Area_selection",
+        "name": "Industry_selection",
         "bind": {
             "input": "select",
             "options": [
                 null,
-                "Carlton",
-                "Docklands",
-                "East Melbourne",
-                "Kensington",
-                "Melbourne (CBD)",
-                "Melbourne (Remainder)",
-                "North Melbourne",
-                "Parkville",
-                "Port Melbourne",
-                "South Yarra",
-                "Southbank",
-                "West Melbourne (Industrial)",
-                "West Melbourne (Residential)"
+                "Cafes and Restaurants",
+                "Takeaway Food Services",
+                "Pubs, Taverns and Bars",
+                "Others"
             ],
             "labels": [
                 "Show All",
-                "Carlton",
-                "Docklands",
-                "East Melbourne",
-                "Kensington",
-                "Melbourne (CBD)",
-                "Melbourne (Remainder)",
-                "North Melbourne",
-                "Parkville",
-                "Port Melbourne",
-                "South Yarra",
-                "Southbank",
-                "West Melbourne (Industrial)",
-                "West Melbourne (Residential)"
+                "Cafes and Restaurants",
+                "Takeaway Food Services",
+                "Pubs, Taverns and Bars",
+                "Others"
             ],
-            "name": "Select Area: "
+            "name": "Select Industry: "
         }
     }],
     "transform": [
-        {"filter": "datum.clue_small_area != ''"},
-        {"aggregate": [{"op": "count", "as": "restaurant_count"}], "groupby": ["clue_small_area"]}
+        {"filter": "datum.industry_anzsic4_description != ''"},
+        {
+            "calculate": "datum.industry_anzsic4_description == 'Cafes and Restaurants' || datum.industry_anzsic4_description == 'Takeaway Food Services' || datum.industry_anzsic4_description == 'Pubs, Taverns and Bars' ? datum.industry_anzsic4_description : 'Others'",
+            "as": "industry_group"
+        },
+        {"aggregate": [{"op": "count", "as": "industry_count"}], "groupby": ["industry_group"]}
     ],
     "layer": [
     {
         "mark": "bar",
         "encoding": {
         "x": {
-            "field": "clue_small_area",
+            "field": "industry_group",
             "type": "nominal",
             "axis": {"labelAngle": -45},
-            "title": "Areas in Melbourne"
+            "title": "Industry Type"
         },
         "y": {
-            "field": "restaurant_count",
+            "field": "industry_count",
             "type": "quantitative",
-            "title": "Number of Restaurants"
+            "title": "Number of Businesses"
         },
         "color": {
-            "field": "clue_small_area",
+            "field": "industry_group",
             "type": "nominal",
-            "legend": {"title": "Areas"},
-            "title": "Area Color"
+            "legend": {"title": "Industry Type"},
+            "title": "Industry Color"
         },
         "opacity": {
             "condition": {
-                "test": "datum.clue_small_area == Area_selection || Area_selection == null",
+                "test": "datum.industry_group == Industry_selection || Industry_selection == null",
                 "value": 1
             },
             "value": 0.2
         },
         "tooltip": [
-            {"field": "clue_small_area", "type": "nominal", "title": "Areas in Melbourne"},
-            {"field": "restaurant_count", "type": "quantitative", "title": "Number of Restaurants"}
+            {"field": "industry_group", "type": "nominal", "title": "Industry Type"},
+            {"field": "industry_count", "type": "quantitative", "title": "Number of Businesses"}
             ]
         }
     },
@@ -94,15 +80,15 @@
         },
         "encoding": {
             "x": {
-                "field": "clue_small_area",
+                "field": "industry_group",
                 "type": "nominal"
             },
             "y": {
-                "field": "restaurant_count",
+                "field": "industry_count",
                 "type": "quantitative"
             },
             "text": {
-                "field": "restaurant_count",
+                "field": "industry_count",
                 "text": "quantitative"
             },
             "color": {"value": "black"}
