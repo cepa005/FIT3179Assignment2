@@ -1,61 +1,42 @@
 {
     "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
-    "width": 800,
+    "width": 600,
     "height": 450,
     "title": "Restaurants, bistros and cafes around Melbourne",
     "projection": {
-        "type": "mercator",
-        "center": [144.9631, -37.8136],
-        "scale": 260000
+        "type": "mercator"
     },
-    "layer": [
+    "data": {
+        "url": "https://raw.githubusercontent.com/cepa005/FIT3179HW-W9/refs/heads/main/vic_localities.json",
+        "format": {"type": "topojson", "feature": "vic_localities"}
+    },
+    "transform": [
         {
-            "data": {
-                "url": "https://raw.githubusercontent.com/cepa005/FIT3179HW-W9/refs/heads/main/vic_localities.json",
-                "format": {"type": "topojson", "feature": "vic_localities"}
-            },
-            "transform": [
-                {
-                    "lookup": "properties.name",
-                    "from": {
-                        "data": {
-                            "url": "https://raw.githubusercontent.com/cepa005/FIT3179HW-W9/refs/heads/main/data/cafes-and-restaurants-with-seating-capacity.csv",
-                            "format": {"type": "csv"}
-                        },
-                        "key": "clue_small_area",
-                        "fields": ["clue_small_area"]
-                    }
+            "lookup": "properties.LOC_NAME",
+            "from": {
+                "data": {
+                    "url": "https://raw.githubusercontent.com/cepa005/FIT3179HW-W9/refs/heads/main/data/NoOfResto.csv"
                 },
-                {
-                    "aggregate": [
-                        {"op": "count", "field": "trading_name", "as": "restaurant_count"}
-                    ],
-                    "groupby": ["clue_small_area"]
-                }
-
-            ],
-            "mark": {"type": "geoshape", "stroke": "white"},
-            "encoding": {
-                "color": {
-                    "field": "restaurant_count",
-                    "type": "quantitative",
-                    "title": "Number of Restaurant",
-                    "scale": {
-                        "domain": [0,10000],
-                        "range": ["#e0f3f8", "#005824"]
-                    }
+                "key": "Suburb",
+                "fields": ["no_of_rest"]
                 },
-                "tooltip": [
-                    {"field": "properties.name", "type": "nominal", "title": "Area"},
-                    {"field": "restaurant_count", "type": "quantitative", "title": "Number of Restaurants"}
-                ]
+                "default": 0
             }
-        }  
     ],
-    "config": {
-        "geoshape": {
-            "color": "lightgray",
-            "stroke": "white"
-        }
+    "mark": {"type": "geoshape", "stroke": "black", "strokeWidth": 1},
+    "encoding": {
+        "color": {
+            "field": "no_of_rest",
+            "type": "quantitative",
+            "title": "Number of Restaurant",
+            "scale": {
+                "domain": [0, 1, 10, 100, 1000, 10000],
+                "range": ["#f0f0f0", "#c6dbef", "#9ecae1", "#6baed6", "#3182bd", "#08519c"]
+            }
+        },
+        "tooltip": [
+            {"field": "properties.LOC_NAME", "type": "nominal", "title": "Area"},
+            {"field": "no_of_rest", "type": "quantitative", "title": "Number of Restaurants"}
+        ]
     }
 }
