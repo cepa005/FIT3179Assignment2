@@ -14,45 +14,48 @@
                 "url": "https://raw.githubusercontent.com/cepa005/FIT3179HW-W9/refs/heads/main/vic_localities.json",
                 "format": {"type": "topojson", "feature": "vic_localities"}
             },
-            "mark": {"type": "geoshape", "fill": "lightgray", "stroke": "white"}
-        },
-        {
-            "data": {
-                "url": "https://raw.githubusercontent.com/cepa005/FIT3179HW-W9/refs/heads/main/data/cafes-and-restaurants-with-seating-capacity.csv",
-                "format": {"type": "csv"}
-            },
             "transform": [
                 {
-                    "aggregate": [
-                        {"op": "count", "field": "trading_name", "as":"restaurant_count"}
-                    ],
-                    "groupby": ["clue_small_area", "latitude", "longitude"]
-                }
-            ],
-            
-            "mark": {"type": "circle", "tooltip": {"content": "data"}},
-            "encoding": {
-                "longitude": {"field": "longitude", "type": "quantitative"},
-                "latitude": {"field": "latitude", "type": "quantitative"},
-                "size":{
-                    "field":"restaurant_count",
-                    "type": "quantitative",
-                    "title": "Number of Restaurants",
-                    "scale": {"range": [10, 300]}
+                    "lookup": "properties.name",
+                    "from": {
+                        "data": {
+                            "url": "https://raw.githubusercontent.com/cepa005/FIT3179HW-W9/refs/heads/main/data/cafes-and-restaurants-with-seating-capacity.csv",
+                            "format": {"type": "csv"}
+                        },
+                        "key": "clue_small_area",
+                        "fields": ["clue_small_area"]
+                    }
                 },
+                {
+                    "aggregate": [
+                        {"op": "count", "field": "trading_name", "as": "restaurant_count"}
+                    ],
+                    "groupby": ["clue_small_area"]
+                }
+
+            ],
+            "mark": {"type": "geoshape", "stroke": "white"},
+            "encoding": {
                 "color": {
-                    "field":"clue_small_area",
-                    "type": "nominal",
-                    "title": "Area",
+                    "field": "restaurant_count",
+                    "type": "quantitative",
+                    "title": "Number of Restaurant",
                     "scale": {
-                        "scheme":"category10"
+                        "domain": [0,10000],
+                        "range": ["#e0f3f8", "#005824"]
                     }
                 },
                 "tooltip": [
-                    {"field": "clue_small_area", "type": "nominal", "title": "Area"},
+                    {"field": "properties.name", "type": "nominal", "title": "Area"},
                     {"field": "restaurant_count", "type": "quantitative", "title": "Number of Restaurants"}
                 ]
             }
+        }  
+    ],
+    "config": {
+        "geoshape": {
+            "color": "lightgray",
+            "stroke": "white"
         }
-    ]
+    }
 }
