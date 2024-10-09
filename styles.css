@@ -1,6 +1,39 @@
-#symbol_map {
-    top:100px;
-	bottom: 100px; 
-	left: 100px;
-	right: 100px;
+#cafes-restaurants_inMelb {
+    display: flex;
+	justify-content: center;
+	background-color: bisque;
+}
+
+#bar-chart {
+	display: flex;
+	justify-content: center;
+	background-color: bisque;
+}
+
+h1 {
+	font-family: 'Oswald', sans-serif;
+	text-align: center;
+	margin-top: 20px;
+	color: black;
+}
+
+p {
+	font-family: 'Roboto', serif;
+	text-align: center;
+	font-size: 19px;
+	margin-top: 0px;
+}
+
+body {
+	background-color: bisque;
+}
+
+.explanation {
+	text-align: left;
+	font-weight: bold;
+}
+
+.description {
+	text-align: left;
+	
 }

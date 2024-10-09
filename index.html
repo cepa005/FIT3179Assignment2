@@ -8,26 +8,77 @@
         integrity="sha384-cg6SkqEOCV1NbJoCu11+bm0NvBRc8IYLRGXkmNrqUBfTjmMYwNKPWBTIKyw9mHNJ" crossorigin="anonymous">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        <link rel="stylesheet" type="text/css" href="css/styles.css" media="all">
+        <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@200..700&family=Roboto&display=swap" rel="stylesheet">
+
+        <link rel="stylesheet" type="text/css" href="styles.css" media="all">
     </head>
 
     <body>
-        <h1> Cafes and Restaurants located in Melbourne</h1>
-        <div id="cafes-restaurants_inMelb"></div>
-        <p> The dots in the map shows each location of every restaurants that are in Melbourne. It shows that Melbournece (CBD) has the most number of dots in the map
-            making it one of the most restaurants to be open in a region in the state of Victoria. The second area with the most number of restaurants would be Carlton
-            and the top third would be the SouthBank. 
+        <h1> Areas in Melbourne to be in the Hospitality Industry</h1>
+        <p>Melbourne is renowned for its diverse and vibrant restaurant scene, offering a culinary experience that spans the globe. 
+            From hidden laneway eateries and stylish rooftop bars to upscale fine dining and bustling food markets, there's something for every taste and budget. 
+            The city is famous for its multicultural influences, which means you can find authentic dishes from nearly every cuisine, including Italian, Vietnamese, Greek, and Middle Eastern. 
+            With a strong emphasis on fresh, locally sourced ingredients, Melbourne restaurants deliver exceptional flavors, whether you're enjoying a casual brunch, a quick bite, or a gourmet dinner.
         </p>
-        <h1>The types of industries that are most popular in Melbourne</h1>
-        <div id="bar-chart"></div>
-        <p> The bar chart shows the types of industries that are in Melbourne and shows which industries is the most. Cafes, Restaurants and Bistros has the most number with 
-            a count up to 15,657. TakeawayFood services with 2875 and Pubs, Taverns and Bars with 1280. The others bar, is the sum of the leftover types of industries that is not as much, compared to the top 3 most types of Industries. 
-        </p>
+        <table border="0">
+            <tr>
+                <td>
+                    <div id="cafes-restaurants_inMelb"></div>
+                </td>
+                <td>
+                    <p class = "explanation">
+                        -> Hover over some of the regions to show some of the information on the Area. 
+                    </p>
+                    <p class = "explanation">
+                        -> Some of the Areas that are in white has no data.
+                    </p>
+                    <p class = "description"> 
+                        The map shows areas from: Carlton, Docklands, East Melbourne, Kensington, Melbourne, North Melbourne, Parkville, Port Melbourne, South Yarra, Southbank
+                        and West Melbourne. These are the areas that data has been collected from by the Victorian Government to showcase, which type of industry and which area has 
+                        the most number of Hospitality industry the most. From the map, it shows that the Melbourne (CBD) has the most with a number up to 12,452 and still growing. One 
+                        of the reasons why Melbourne is has the most would be because, the area is the heart of Victoria and Melbourne (CBD) is the pplace where all different kinds
+                        of people from all different sorts of culture and countries. If you were to create a restaurant in Victoria, Melbourne (CBD) will be the most competitive area to
+                        open a restaurant at this is due to the high number of restaurants that are open in the CBD. A recommendation to open a restaurant would be at Southbank, this is because
+                        the competitive is not as high as it is in the CBD but the area is still quite close to the Melbourne (CBD). 
+                    </p>
+                </td>
+                
+            </tr>
+        </table>
+        
+    
+        <h1>The types of industries that are most popular by Areas</h1>
+        <table border = "0">
+            <tr>
+                <td>
+                    <div id="bar-chart"></div>
+                </td>
+                <td>
+                    <p class = "explanation">
+                        -> Click the legends to show the types of Industry from each Area 
+                    </p>
+                    <p class = "explanation">
+                        -> You are able to zoom in or zoom out in the stacked bar chart to view the smaller bar chart more closely
+                    </p>
+                    <p class = "description">
+                        From the stacked bar chart, it shows that the cafes and restaurants industries take up the most of the total service types from each area. The second most 
+                        popular industry would be the takeaway food services in every Area. Carlton is the second area with the most toal number of service types with a total of 2,442.
+                        With the most famous industry, cafes and restaurants. Pubs, Taverns and Bars are the third most popular industry to be in, however, South Yarra and Port Melbourne does
+                        not have any of them, so in that area, it is most recommended to open a bar since there is almost none that is recorded so far. Similar with East Melbourne, where there is only
+                        one bar that is open in that area. As for the category others, it consists of fresh supermarkets, accomodation, and more. However, they are not as much as the top 3 which are 
+                        Pubs, Restaurants and Takeaway food services. 
+                    </p>
+                </td>
+            </tr>
+        </table>
+        
         <script type="text/javascript">
-            var spec2 = "cafes-restaurants_inMelb_symbol_maps.vg.json";
-            vegaEmbed('#cafes-restaurants_inMelb', spec2).then(function(result) {}).catch(console.error);
-            var spec3 = "bar-chart.vg.json";
-            vegaEmbed('#bar-chart', spec3).then(function(result) {}).catch(console.error);
+            var map = "cafes-restaurants_inMelb_symbol_maps.vg.json";
+            vegaEmbed('#cafes-restaurants_inMelb', map).then(function(result) {}).catch(console.error);
+        </script>
+        <script type="text/javascript">
+            var stacked_bar = "bar-chart.vg.json";
+            vegaEmbed('#bar-chart', stacked_bar).then(function(result) {}).catch(console.error);
         </script>
     </body>
 </html>
