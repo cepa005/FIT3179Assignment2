@@ -6,94 +6,107 @@
     "data": {
         "url": "https://raw.githubusercontent.com/cepa005/FIT3179HW-W9/refs/heads/main/data/cafes-and-restaurants-with-seating-capacity.csv"
     },
-    "params": [{
-        "name": "Industry_selection",
-        "bind": {
-            "input": "select",
-            "options": [
-                null,
-                "Cafes and Restaurants",
-                "Takeaway Food Services",
-                "Pubs, Taverns and Bars",
-                "Others"
-            ],
-            "labels": [
-                "Show All",
-                "Cafes and Restaurants",
-                "Takeaway Food Services",
-                "Pubs, Taverns and Bars",
-                "Others"
-            ],
-            "name": "Select Industry: "
-        }
-    }],
     "transform": [
-        {"filter": "datum.industry_anzsic4_description != ''"},
         {
-            "calculate": "datum.industry_anzsic4_description == 'Cafes and Restaurants' || datum.industry_anzsic4_description == 'Takeaway Food Services' || datum.industry_anzsic4_description == 'Pubs, Taverns and Bars' ? datum.industry_anzsic4_description : 'Others'",
-            "as": "industry_group"
+            "calculate": "datum.industry_anzsic4_description == 'Pubs, Taverns and Bars' ? 'Pubs, Taverns and Bars' : (datum.industry_anzsic4_description == 'Takeaway Food Services' ? 'Takeaway Food Services' : (datum.industry_anzsic4_description == 'Cafes and Restaurants' ? 'Cafes and Restaurants' : 'Others'))",
+            "as": "Service Type"
         },
-        {"aggregate": [{"op": "count", "as": "industry_count"}], "groupby": ["industry_group"]}
+        {
+            "aggregate": [{
+                "op": "count", "as": "Service Count"
+            }],
+            "groupby": ["clue_small_area", "Service Type"]
+        }
     ],
+    
+
     "layer": [
     {
+        
         "mark": "bar",
+        "selection": {
+        "legend_hover": {
+            "type": "multi",
+            "fields": ["Service Type"],
+            "bind": "legend"
+        },
+        "zoom": {
+            "type": "interval",
+            "bind": "scales"
+        }
+        },
         "encoding": {
         "x": {
-            "field": "industry_group",
+            "field": "clue_small_area",
             "type": "nominal",
-            "axis": {"labelAngle": -45},
-            "title": "Industry Type"
+            "title": "Area",
+            "axis": {"labelAngle": 45}
         },
         "y": {
-            "field": "industry_count",
+            "field": "Service Count",
             "type": "quantitative",
-            "title": "Number of Businesses"
+            "title": "Count of Services",
+            "scale": {
+                "domain": {"selection": "zoom"}
+            }
         },
         "color": {
-            "field": "industry_group",
+            "field": "Service Type",
             "type": "nominal",
-            "legend": {"title": "Industry Type"},
-            "title": "Industry Color"
+            "scale": {
+                "domain": ["Pubs, Taverns and Bars", "Takeaway Food Services", "Cafes and Restaurants", "Others"],
+                "range": ["#1f77b4", "#ff7f0e", "#2ca02c", "#d62728"]
+            },
+            "title": "Service Type"
         },
         "opacity": {
-            "condition": {
-                "test": "datum.industry_group == Industry_selection || Industry_selection == null",
-                "value": 1
-            },
+            "condition": {"selection": "legend_hover", "value": 1},
             "value": 0.2
         },
         "tooltip": [
-            {"field": "industry_group", "type": "nominal", "title": "Industry Type"},
-            {"field": "industry_count", "type": "quantitative", "title": "Number of Businesses"}
-            ]
+            {"field": "clue_small_area", "type": "nominal", "title": "Area"},
+            {"field": "Service Type", "type": "nominal", "title": "Service Type"},
+            {"field": "Service Count", "type": "quantitative", "title": "Count"}
+        ]
         }
     },
     {
         "mark": {
             "type": "text",
-            "align": "center",
-            "baseline": "bottom",
-            "dx": -5,
-            "fontSize": 12,
-            "fontStyle": "bold"
+            "dx": 0,
+            "dy": -5,
+            "fontWeight": "bold"
         },
+        "transform": [
+            {
+                "aggregate": [{
+                    "op": "sum",
+                    "field": "Service Count",
+                    "as": "Total Count"
+                }
+            ],
+            "groupby": ["clue_small_area"]
+            }
+        ],
         "encoding": {
             "x": {
-                "field": "industry_group",
+                "field": "clue_small_area",
                 "type": "nominal"
             },
             "y": {
-                "field": "industry_count",
+                "field": "Total Count",
                 "type": "quantitative"
             },
             "text": {
-                "field": "industry_count",
-                "text": "quantitative"
+                "field": "Total Count",
+                "type": "quantitative"
             },
-            "color": {"value": "black"}
+            "color": {
+                "value": "black"
+            }
         }
     }
     ]
+    
     
 }
